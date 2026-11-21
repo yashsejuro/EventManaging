@@ -1,0 +1,18 @@
+{
+  "buildCommand": "python manage.py migrate --noinput && python manage.py seed_demo && python manage.py collectstatic --noinput",
+  "builds": [
+    {
+      "src": "clubevents/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.12"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "clubevents/wsgi.py"
+    }
+  ]
+}

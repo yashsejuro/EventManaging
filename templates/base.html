@@ -5,7 +5,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="ClubEvents helps students discover, join, and run memorable campus events.">
+  <meta name="theme-color" content="#d6ff3f">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ClubEvents">
+  <meta property="og:description" content="Discover, join, and organize campus events.">
+  <meta property="og:image" content="{% static 'images/social-card.svg' %}">
+  <meta name="twitter:card" content="summary_large_image">
   <title>{% block title %}ClubEvents{% endblock %}</title>
+  <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.svg' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,8 +21,14 @@
   {% block extra_head %}{% endblock %}
 </head>
 <body class="page-{{ request.resolver_match.url_name|default:'site' }}">
-  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true" data-scroll-progress></div>
+  <div class="ambient-background" aria-hidden="true">
+    <i class="ambient-blob ambient-blob--lime" data-ambient-blob></i>
+    <i class="ambient-blob ambient-blob--violet" data-ambient-blob></i>
+    <i class="ambient-blob ambient-blob--cyan" data-ambient-blob></i>
+  </div>
   <div class="page-noise" aria-hidden="true"></div>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   {% include "partials/navbar.html" %}
   {% include "partials/messages.html" %}
 
@@ -32,7 +46,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js" defer></script>
   <script src="{% static 'js/ui.js' %}" defer></script>
   <script src="{% static 'js/motion.js' %}" defer></script>
   {% block extra_scripts %}{% endblock %}

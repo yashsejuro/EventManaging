@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#171718"/>
+  <circle cx="1050" cy="100" r="230" fill="#8067ff" opacity=".42"/>
+  <circle cx="100" cy="650" r="290" fill="#d6ff3f" opacity=".38"/>
+  <rect x="110" y="112" width="118" height="118" rx="30" fill="#d6ff3f"/>
+  <path d="M128 180c0-32 21-56 53-56 19 0 35 8 45 21l-21 18c-5-7-13-13-24-13-16 0-26 13-26 30s10 29 26 29c11 0 19-6 24-13l21 18c-10 13-26 21-45 21-32 0-53-23-53-55Z" fill="#171718"/>
+  <text x="268" y="205" fill="#fffdf8" font-family="Arial, sans-serif" font-size="92" font-weight="700">ClubEvents</text>
+  <text x="112" y="350" fill="#fffdf8" font-family="Arial, sans-serif" font-size="52" font-weight="700">Discover. Join. Organize.</text>
+  <text x="112" y="420" fill="#b8b5ad" font-family="Arial, sans-serif" font-size="34">The campus event hub for memorable moments.</text>
+</svg>
