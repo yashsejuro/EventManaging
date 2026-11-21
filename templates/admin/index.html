@@ -1,0 +1,101 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/css/clubevents.css' %}">
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+{% block bodyclass %}{{ block.super }} dashboard clubevents-dashboard{% endblock %}
+
+{% block content %}
+  <div class="clubevents-dashboard__hero">
+    <div>
+      <p>Campus operations</p>
+      <h1>Good afternoon.</h1>
+      <span>Here is what is happening across ClubEvents.</span>
+    </div>
+  </div>
+
+  <section class="clubevents-stats" aria-label="ClubEvents statistics">
+    <article>
+      <span>People</span>
+      <strong>{{ clubevents_user_count|default:0 }}</strong>
+      <small>User accounts</small>
+    </article>
+    <article>
+      <span>Published</span>
+      <strong>{{ clubevents_event_count|default:0 }}</strong>
+      <small>Total events</small>
+    </article>
+    <article>
+      <span>Upcoming</span>
+      <strong>{{ clubevents_upcoming_count|default:0 }}</strong>
+      <small>On the calendar</small>
+    </article>
+    <article>
+      <span>Bookings</span>
+      <strong>{{ clubevents_registration_count|default:0 }}</strong>
+      <small>Registrations</small>
+    </article>
+  </section>
+
+  <div id="content-main">
+    {% if app_list %}
+      <div class="app-list clubevents-app-list">
+        {% for app in app_list %}
+          <div class="app-{{ app.app_label }} module">
+            <table>
+              <caption>
+                <a href="{{ app.app_url }}" class="section" title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">
+                  {{ app.name }}
+                </a>
+              </caption>
+              {% for model in app.models %}
+                <tr class="model-{{ model.object_name|lower }}">
+                  {% if model.admin_url %}
+                    <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
+                  {% else %}
+                    <th scope="row">{{ model.name }}</th>
+                  {% endif %}
+                  <td>
+                    {% if model.add_url %}<a href="{{ model.add_url }}" class="addlink">{% translate "Add" %}</a>{% endif %}
+                  </td>
+                  <td>
+                    {% if model.admin_url %}<a href="{{ model.admin_url }}" class="changelink">{% translate "View" %}</a>{% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>{% translate "You don't have permission to view or edit anything." %}</p>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  <div id="content-related">
+    <div class="module clubevents-activity">
+      <h2>{% translate "Recent activity" %}</h2>
+      {% load log %}
+      {% get_admin_log 8 as admin_log for_user user %}
+      {% if admin_log %}
+        <ul>
+          {% for entry in admin_log %}
+            <li>
+              <strong>{{ entry.user.get_full_name|default:entry.user.username }}</strong>
+              <span>{{ entry.action_time|timesince }} ago</span>
+              <p>{{ entry|truncatewords:12 }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{% translate "No recent actions." %}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

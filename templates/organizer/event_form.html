@@ -4,7 +4,7 @@
   <section class="organizer-page organizer-form-page shell">
     <a class="back-link" href="{% url 'events:organizer_dashboard' %}">← Dashboard</a>
     <div class="form-page__head"><p class="eyebrow"><span></span> Organizer space</p><h1>{% if event %}Shape the<br><em>details.</em>{% else %}Make a little<br><em>noise.</em>{% endif %}</h1><p>{% if event %}Update your event details. Your registered students will see the changes right away.{% else %}Give students a reason to get off their screens and into the room.{% endif %}</p></div>
-    <form class="event-form glass-card" method="post" enctype="multipart/form-data" novalidate>
+    <form class="event-form glass glass--strong" method="post" enctype="multipart/form-data" novalidate>
       {% csrf_token %}
       {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
       <div class="form-grid">

@@ -26,21 +26,27 @@
     </div>
   </section>
 
-  <section class="section shell featured-section" id="featured">
-    <div class="section-heading" data-reveal>
-      <div><p class="eyebrow"><span></span> Coming up</p><h2>Worth leaving<br>your room for.</h2></div>
-      <a class="arrow-link" href="{% url 'events:event_list' %}">View all events <span aria-hidden="true">→</span></a>
-    </div>
-    <div class="events-grid events-grid--featured" data-event-grid>
-      {% for event in featured_events %}
-        {% include "partials/event_card.html" with event=event %}
-      {% empty %}
-        <div class="empty-state empty-state--wide"><p class="eyebrow"><span></span> Stay tuned</p><h3>New events are about to land.</h3><p>Our organizers are putting together something good. Check back soon.</p></div>
-      {% endfor %}
+  <section class="statement-section shell" data-statement>
+    <p data-statement-copy>Campus life is more than a timetable. It is people finding the room, the idea, the moment that changes everything.</p>
+  </section>
+
+  <section class="featured-pin" id="featured" data-featured-pin>
+    <div class="featured-pin__inner shell">
+      <div class="section-heading" data-reveal>
+        <div><p class="eyebrow"><span></span> Coming up</p><h2>Worth leaving<br>your room for.</h2></div>
+        <a class="arrow-link" href="{% url 'events:event_list' %}">View all events <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="events-grid events-grid--featured" data-featured-track data-event-grid>
+        {% for event in featured_events %}
+          {% include "partials/event_card.html" with event=event %}
+        {% empty %}
+          <div class="empty-state empty-state--wide"><p class="eyebrow"><span></span> Stay tuned</p><h3>New events are about to land.</h3><p>Our organizers are putting together something good. Check back soon.</p></div>
+        {% endfor %}
+      </div>
     </div>
   </section>
 
-  <section class="how-section" data-how-section>
+  <section class="how-section" data-how-section data-how-pin>
     <div class="shell how-section__grid">
       <div class="how-section__intro">
         <p class="eyebrow"><span></span> The simple part</p>
@@ -48,9 +54,9 @@
       </div>
       <div class="how-steps" data-how-steps>
         <div class="how-line" aria-hidden="true"><i data-how-progress></i></div>
-        <article class="how-step"><span>01</span><div><h3>Browse</h3><p>Find something that feels like you — from a hands-on maker session to the final whistle.</p></div></article>
-        <article class="how-step"><span>02</span><div><h3>Register</h3><p>Save your seat in seconds. We will send the details to your inbox, so you can simply show up.</p></div></article>
-        <article class="how-step"><span>03</span><div><h3>Show up</h3><p>Meet the people behind the posters, the ideas, and the energy. That is the whole point.</p></div></article>
+        <article class="how-step" data-how-step><span data-step-number>01</span><div><h3>Browse</h3><p>Find something that feels like you — from a hands-on maker session to the final whistle.</p></div></article>
+        <article class="how-step" data-how-step><span data-step-number>02</span><div><h3>Register</h3><p>Save your seat in seconds. We will send the details to your inbox, so you can simply show up.</p></div></article>
+        <article class="how-step" data-how-step><span data-step-number>03</span><div><h3>Show up</h3><p>Meet the people behind the posters, the ideas, and the energy. That is the whole point.</p></div></article>
       </div>
     </div>
   </section>

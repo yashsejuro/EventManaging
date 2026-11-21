@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group, Permission
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from events.models import Event
+from events.models import Event, Registration
 
 
 class Command(BaseCommand):
@@ -48,20 +48,43 @@ class Command(BaseCommand):
             student.set_password("demo12345")
             student.save()
 
+        demo_students = [
+            ("aisha", "Aisha", "Kapoor", "aisha@clubevents.local"),
+            ("rohan", "Rohan", "Mehta", "rohan@clubevents.local"),
+            ("sneha", "Sneha", "Iyer", "sneha@clubevents.local"),
+            ("kabir", "Kabir", "Shah", "kabir@clubevents.local"),
+            ("meera", "Meera", "Rao", "meera@clubevents.local"),
+            ("arjun", "Arjun", "Nair", "arjun@clubevents.local"),
+            ("diya", "Diya", "Patel", "diya@clubevents.local"),
+            ("vihaan", "Vihaan", "Singh", "vihaan@clubevents.local"),
+        ]
+        for username, first_name, last_name, email in demo_students:
+            demo_user, created = user_model.objects.get_or_create(
+                username=username,
+                defaults={
+                    "email": email,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                },
+            )
+            if created:
+                demo_user.set_password("demo12345")
+                demo_user.save()
+
         now = timezone.now().replace(minute=0, second=0, microsecond=0)
         demo_events = [
-            ("Build Night: Django", "TECH", "Lab 204", 2, 40),
-            ("Figma to Frontend", "WORKSHOP", "Design Studio", 4, 28),
-            ("Founders' Fireside", "TALK", "Auditorium", 6, 180),
-            ("Open Mic After Dark", "CULTURAL", "Amphitheatre", 8, 120),
-            ("Campus 5K", "SPORTS", "Main Gate", 10, 250),
-            ("Python Puzzle Sprint", "TECH", "Lab 101", 12, 48),
-            ("Film & Frame", "CULTURAL", "Media Room", 15, 65),
-            ("First-aid on Court", "WORKSHOP", "Sports Complex", 18, 36),
+            ("Build Night: Django", "TECH", "Lab 204", 2, 40, "build-night.svg"),
+            ("Figma to Frontend", "WORKSHOP", "Design Studio", 4, 28, "figma-front.svg"),
+            ("Founders' Fireside", "TALK", "Auditorium", 6, 180, "founders.svg"),
+            ("Open Mic After Dark", "CULTURAL", "Amphitheatre", 8, 120, "open-mic.svg"),
+            ("Campus 5K", "SPORTS", "Main Gate", 10, 250, "campus-5k.svg"),
+            ("Python Puzzle Sprint", "TECH", "Lab 101", 12, 48, "python-sprint.svg"),
+            ("Film & Frame", "CULTURAL", "Media Room", 15, 65, "film-frame.svg"),
+            ("First-aid on Court", "WORKSHOP", "Sports Complex", 18, 36, "first-aid.svg"),
         ]
         created_count = 0
-        for title, category, venue, days, capacity in demo_events:
-            _, event_created = Event.objects.get_or_create(
+        for title, category, venue, days, capacity, poster_name in demo_events:
+            event, event_created = Event.objects.get_or_create(
                 title=title,
                 created_by=organizer,
                 defaults={
@@ -73,9 +96,28 @@ class Command(BaseCommand):
                     "venue": venue,
                     "start_datetime": now + timedelta(days=days, hours=18),
                     "capacity": capacity,
+                    "poster": f"posters/demo/{poster_name}",
                 },
             )
+            poster_path = f"posters/demo/{poster_name}"
+            if event.poster.name != poster_path:
+                event.poster = poster_path
+                event.save(update_fields=["poster"])
             created_count += int(event_created)
+
+            participants = list(
+                user_model.objects.filter(username__in=[
+                    "student", "aisha", "rohan", "sneha", "kabir",
+                    "meera", "arjun", "diya", "vihaan",
+                ])
+            )
+            participant_limit = min(max(3, event.capacity // 5), len(participants))
+            for participant in participants[:participant_limit]:
+                Registration.objects.get_or_create(
+                    event=event,
+                    user=participant,
+                    defaults={"attended": days < 0},
+                )
 
         self.stdout.write(
             self.style.SUCCESS(

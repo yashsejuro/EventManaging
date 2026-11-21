@@ -1,0 +1,19 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_("Django site admin") }}{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/css/clubevents.css' %}">
+{% endblock %}
+
+{% block branding %}
+  <div class="clubevents-brand">
+    <span class="clubevents-brand__mark">CE</span>
+    <div>
+      <strong>{{ site_header|default:_("Django administration") }}</strong>
+      <small>Campus event operations</small>
+    </div>
+  </div>
+{% endblock %}

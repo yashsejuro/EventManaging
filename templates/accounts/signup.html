@@ -3,7 +3,7 @@
 {% block content %}
   <section class="auth-page shell">
     <div class="auth-page__intro"><p class="eyebrow"><span></span> New around here?</p><h1>The good stuff<br>starts with <em>hello.</em></h1><p>Create an account to register for events and keep your plans together.</p></div>
-    <div class="auth-card glass-card">
+    <div class="auth-card glass glass--strong" data-glass-card>
       <h2>Create your account</h2>
       <form method="post" class="form-stack" novalidate>
         {% csrf_token %}

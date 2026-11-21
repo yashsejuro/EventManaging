@@ -8,7 +8,7 @@
   </section>
 
   <section class="shell listing-section">
-    <form class="event-filters" method="get" action="{% url 'events:event_list' %}" data-filters>
+    <form class="event-filters glass glass--subtle" method="get" action="{% url 'events:event_list' %}" data-filters data-glass-card>
       <label class="search-field"><span class="sr-only">Search events</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ request.GET.q }}" placeholder="Search events, venues…"></label>
       <label class="select-field"><span class="sr-only">Filter by category</span><select name="category" onchange="this.form.submit()"><option value="">All categories</option><option value="TECH" {% if request.GET.category == 'TECH' %}selected{% endif %}>Tech</option><option value="WORKSHOP" {% if request.GET.category == 'WORKSHOP' %}selected{% endif %}>Workshop</option><option value="TALK" {% if request.GET.category == 'TALK' %}selected{% endif %}>Talk</option><option value="CULTURAL" {% if request.GET.category == 'CULTURAL' %}selected{% endif %}>Cultural</option><option value="SPORTS" {% if request.GET.category == 'SPORTS' %}selected{% endif %}>Sports</option></select></label>
       <button class="button button--small" type="submit">Search</button>

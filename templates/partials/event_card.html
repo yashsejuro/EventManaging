@@ -1,5 +1,5 @@
 {% load event_extras %}
-<article class="event-card" data-tilt-card>
+<article class="event-card glass glass--subtle" data-tilt-card data-glass-card>
   <a class="event-card__media" href="{% url 'events:event_detail' event.slug %}" aria-label="View {{ event.title }}">
     {% if event.poster %}
       <img src="{{ event.poster.url }}" alt="Poster for {{ event.title }}" loading="lazy">

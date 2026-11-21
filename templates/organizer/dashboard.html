@@ -3,7 +3,7 @@
 {% block content %}
   <section class="organizer-page shell">
     <div class="organizer-head"><div><p class="eyebrow"><span></span> Organizer space</p><h1>Make something<br><em>happen.</em></h1></div><a class="button button--primary button--magnetic" href="{% url 'events:event_create' %}" data-magnetic>Create an event <span aria-hidden="true">+</span></a></div>
-    <div class="dashboard-stats">
+    <div class="dashboard-stats glass glass--subtle">
       <article><span>My events</span><strong>{{ total_events|default:0 }}</strong></article>
       <article><span>Total registrations</span><strong>{{ total_registrations|default:0 }}</strong></article>
       <article><span>Seats open</span><strong>{{ seats_open|default:0 }}</strong></article>

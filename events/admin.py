@@ -1,11 +1,38 @@
 """Useful staff administration for events and their registrations."""
 
 import csv
+from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 from django.contrib import admin
 from django.http import HttpResponse
 
 from .models import Event, Registration
+
+
+admin.site.site_header = "ClubEvents Administration"
+admin.site.site_title = "ClubEvents Admin"
+admin.site.index_title = "Campus operations overview"
+admin.site.index_template = "admin/index.html"
+
+
+_original_admin_each_context = admin.site.each_context
+
+
+def clubevents_admin_context(request):
+    context = _original_admin_each_context(request)
+    context.update(
+        clubevents_user_count=get_user_model().objects.count(),
+        clubevents_event_count=Event.objects.count(),
+        clubevents_registration_count=Registration.objects.count(),
+        clubevents_upcoming_count=Event.objects.filter(
+            start_datetime__gte=timezone.now()
+        ).count(),
+    )
+    return context
+
+
+admin.site.each_context = clubevents_admin_context
 
 
 class RegistrationInline(admin.TabularInline):
@@ -25,6 +52,7 @@ class EventAdmin(admin.ModelAdmin):
         "venue",
         "start_datetime",
         "capacity",
+        "registration_total",
         "created_by",
     )
     list_filter = ("category", "start_datetime")
@@ -33,6 +61,10 @@ class EventAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     list_select_related = ("created_by",)
     inlines = (RegistrationInline,)
+
+    @admin.display(description="Registrations", ordering="registrations")
+    def registration_total(self, obj):
+        return obj.registrations.count()
 
 
 @admin.register(Registration)
