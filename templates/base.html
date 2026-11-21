@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ClubEvents helps students discover, join, and run memorable campus events.">
+  <title>{% block title %}ClubEvents{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="page-{{ request.resolver_match.url_name|default:'site' }}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="page-noise" aria-hidden="true"></div>
+  {% include "partials/navbar.html" %}
+  {% include "partials/messages.html" %}
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand brand--footer" href="{% url 'events:home' %}" aria-label="ClubEvents home">Club<span>Events</span></a>
+    <p>Made for the people who make campus happen.</p>
+    <p class="footer-copy">&copy; {% now "Y" %} ClubEvents</p>
+  </footer>
+
+  {# CDN scripts stay optional: all core actions work as normal server-rendered pages. #}
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js" defer></script>
+  <script src="{% static 'js/ui.js' %}" defer></script>
+  <script src="{% static 'js/motion.js' %}" defer></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

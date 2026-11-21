@@ -1,0 +1,11 @@
+{% if is_paginated %}
+  <nav class="pagination" aria-label="Event pages">
+    {% if page_obj.has_previous %}
+      <a class="pagination__arrow" href="?{% querystring page=page_obj.previous_page_number %}" aria-label="Previous page">←</a>
+    {% else %}<span class="pagination__arrow is-disabled" aria-hidden="true">←</span>{% endif %}
+    <span class="pagination__status">Page {{ page_obj.number }} <i>/</i> {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a class="pagination__arrow" href="?{% querystring page=page_obj.next_page_number %}" aria-label="Next page">→</a>
+    {% else %}<span class="pagination__arrow is-disabled" aria-hidden="true">→</span>{% endif %}
+  </nav>
+{% endif %}

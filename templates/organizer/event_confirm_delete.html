@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ event.title }} — ClubEvents{% endblock %}
+{% block content %}
+  <section class="confirm-page shell"><div class="confirm-card glass-card"><p class="eyebrow eyebrow--danger"><span></span> Careful now</p><h1>Delete <em>{{ event.title }}</em>?</h1><p>This will permanently remove the event and its registrations. This cannot be undone.</p><form method="post" class="form-actions">{% csrf_token %}<a class="button button--outline" href="{% url 'events:organizer_dashboard' %}">Keep event</a><button class="button button--danger" type="submit">Yes, delete it</button></form></div></section>
+{% endblock %}

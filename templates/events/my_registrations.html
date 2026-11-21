@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}My tickets — ClubEvents{% endblock %}
+{% block content %}
+  <section class="page-hero shell page-hero--compact"><p class="eyebrow"><span></span> Your calendar</p><h1>Places you<br>said <em>yes</em> to.</h1><p class="page-hero__lede">Everything you are registered for, right here.</p></section>
+  <section class="shell tickets-section">
+    <div class="tickets-list">
+      {% for registration in registrations %}
+        <article class="ticket-card">
+          <a class="ticket-card__poster" href="{% url 'events:event_detail' registration.event.slug %}">{% if registration.event.poster %}<img src="{{ registration.event.poster.url }}" alt="Poster for {{ registration.event.title }}">{% else %}<span class="poster-fallback poster-fallback--{{ registration.event.category|lower }}"><b>{{ registration.event.title|slice:':1' }}</b></span>{% endif %}</a>
+          <div class="ticket-card__main"><p class="eyebrow"><span></span> {{ registration.event.category }}</p><h2><a href="{% url 'events:event_detail' registration.event.slug %}">{{ registration.event.title }}</a></h2><p>{{ registration.event.start_datetime|date:"D, d M · g:i A" }} <i>•</i> {{ registration.event.venue }}</p></div>
+          <div class="ticket-card__state">{% if registration.event.is_past %}<span class="status-badge status-badge--muted">Ended</span>{% elif registration.attended %}<span class="status-badge">Attended</span>{% else %}<span class="status-badge status-badge--live">You're in</span>{% endif %}<form action="{% url 'events:cancel_registration' registration.event.slug %}" method="post">{% csrf_token %}{% if not registration.event.is_past %}<button class="text-button text-button--muted" type="submit">Cancel</button>{% endif %}</form></div>
+        </article>
+      {% empty %}
+        <div class="empty-state"><p class="eyebrow"><span></span> Blank canvas</p><h2>Your next ticket is waiting.</h2><p>See what is happening, find a feeling, and save your seat.</p><a class="button button--primary" href="{% url 'events:event_list' %}">Explore events <span aria-hidden="true">↗</span></a></div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

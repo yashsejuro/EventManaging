@@ -1,0 +1,31 @@
+<header class="site-header" data-site-header>
+  <nav class="nav shell" aria-label="Primary navigation">
+    <a class="brand" href="{% url 'events:home' %}" aria-label="ClubEvents home">Club<span>Events</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
+      <span class="sr-only">Toggle navigation</span><i></i><i></i>
+    </button>
+    <div class="nav-menu" id="nav-menu" data-nav-menu>
+      <div class="nav-links">
+        <a href="{% url 'events:event_list' %}">Explore events</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'events:my_registrations' %}">My tickets</a>
+          {% if user.is_superuser or perms.events.add_event %}
+            <a href="{% url 'events:organizer_dashboard' %}">Organizer</a>
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="nav-actions">
+        {% if user.is_authenticated %}
+          <span class="nav-greeting">Hi, {{ user.first_name|default:user.username }}</span>
+          <form action="{% url 'accounts:logout' %}" method="post">
+            {% csrf_token %}
+            <button class="text-button" type="submit">Log out</button>
+          </form>
+        {% else %}
+          <a class="text-button" href="{% url 'accounts:login' %}">Log in</a>
+          <a class="button button--small button--magnetic" href="{% url 'accounts:signup' %}" data-magnetic>Join the club <span aria-hidden="true">↗</span></a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>

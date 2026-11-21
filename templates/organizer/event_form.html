@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{% if event %}Edit {{ event.title }}{% else %}Create an event{% endif %} — ClubEvents{% endblock %}
+{% block content %}
+  <section class="organizer-page organizer-form-page shell">
+    <a class="back-link" href="{% url 'events:organizer_dashboard' %}">← Dashboard</a>
+    <div class="form-page__head"><p class="eyebrow"><span></span> Organizer space</p><h1>{% if event %}Shape the<br><em>details.</em>{% else %}Make a little<br><em>noise.</em>{% endif %}</h1><p>{% if event %}Update your event details. Your registered students will see the changes right away.{% else %}Give students a reason to get off their screens and into the room.{% endif %}</p></div>
+    <form class="event-form glass-card" method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+      <div class="form-grid">
+        {% for field in form %}<div class="form-field {% if field.name == 'description' or field.name == 'poster' %}form-field--wide{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span aria-label="required">*</span>{% endif %}</label>{{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>{% endfor %}
+      </div>
+      <div class="form-actions"><a class="button button--outline" href="{% url 'events:organizer_dashboard' %}">Cancel</a><button class="button button--primary" type="submit">{% if event %}Save changes{% else %}Publish event{% endif %} <span aria-hidden="true">↗</span></button></div>
+    </form>
+  </section>
+{% endblock %}

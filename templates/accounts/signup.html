@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Join ClubEvents{% endblock %}
+{% block content %}
+  <section class="auth-page shell">
+    <div class="auth-page__intro"><p class="eyebrow"><span></span> New around here?</p><h1>The good stuff<br>starts with <em>hello.</em></h1><p>Create an account to register for events and keep your plans together.</p></div>
+    <div class="auth-card glass-card">
+      <h2>Create your account</h2>
+      <form method="post" class="form-stack" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+        {% for field in form %}
+          <div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<small>{{ field.help_text|safe }}</small>{% endif %}{% for error in field.errors %}<span class="field-error">{{ error }}</span>{% endfor %}</div>
+        {% endfor %}
+        <button class="button button--primary button--block" type="submit">Create account <span aria-hidden="true">↗</span></button>
+      </form>
+      <p class="auth-card__switch">Already registered? <a href="{% url 'accounts:login' %}">Log in</a></p>
+    </div>
+  </section>
+{% endblock %}

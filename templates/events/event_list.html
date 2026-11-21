@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Explore events — ClubEvents{% endblock %}
+{% block content %}
+  <section class="page-hero shell page-hero--compact">
+    <p class="eyebrow"><span></span> Find your next thing</p>
+    <h1>All the good<br><em>stuff</em>, in one place.</h1>
+    <p class="page-hero__lede">There is always something unfolding on campus. Start with the one that catches your eye.</p>
+  </section>
+
+  <section class="shell listing-section">
+    <form class="event-filters" method="get" action="{% url 'events:event_list' %}" data-filters>
+      <label class="search-field"><span class="sr-only">Search events</span><span aria-hidden="true">⌕</span><input type="search" name="q" value="{{ request.GET.q }}" placeholder="Search events, venues…"></label>
+      <label class="select-field"><span class="sr-only">Filter by category</span><select name="category" onchange="this.form.submit()"><option value="">All categories</option><option value="TECH" {% if request.GET.category == 'TECH' %}selected{% endif %}>Tech</option><option value="WORKSHOP" {% if request.GET.category == 'WORKSHOP' %}selected{% endif %}>Workshop</option><option value="TALK" {% if request.GET.category == 'TALK' %}selected{% endif %}>Talk</option><option value="CULTURAL" {% if request.GET.category == 'CULTURAL' %}selected{% endif %}>Cultural</option><option value="SPORTS" {% if request.GET.category == 'SPORTS' %}selected{% endif %}>Sports</option></select></label>
+      <button class="button button--small" type="submit">Search</button>
+      {% if request.GET.q or request.GET.category %}<a class="filter-reset" href="{% url 'events:event_list' %}">Clear filters</a>{% endif %}
+      <div class="view-switch" aria-label="View layout"><button type="button" class="is-active" data-view="grid" aria-label="Grid view" aria-pressed="true">▦</button><button type="button" data-view="list" aria-label="List view" aria-pressed="false">☷</button></div>
+    </form>
+    <div class="listing-summary"><p><strong>{{ page_obj.paginator.count|default:events|length }}</strong> event{{ page_obj.paginator.count|pluralize }} found</p></div>
+    <div class="events-grid" data-event-grid>
+      {% for event in events %}{% include "partials/event_card.html" with event=event %}{% empty %}
+        <div class="empty-state empty-state--wide"><p class="eyebrow"><span></span> No matches</p><h2>That event is hiding.</h2><p>Try a different search or clear the filters to see everything.</p><a class="button button--small" href="{% url 'events:event_list' %}">See all events</a></div>
+      {% endfor %}
+    </div>
+    {% include "partials/pagination.html" %}
+  </section>
+{% endblock %}

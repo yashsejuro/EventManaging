@@ -1,0 +1,1 @@
+"""ClubEvents Django project package."""
