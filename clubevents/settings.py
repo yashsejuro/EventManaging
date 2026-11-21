@@ -97,9 +97,13 @@ TEMPLATES = [
 WSGI_APPLICATION = "clubevents.wsgi.application"
 ASGI_APPLICATION = "clubevents.asgi.application"
 
+database_url = os.environ.get("DATABASE_URL")
+if os.environ.get("VERCEL") and not database_url:
+    database_url = "sqlite:////tmp/clubevents.sqlite3"
+
 DATABASES = {
     "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default=database_url or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
     )
 }
