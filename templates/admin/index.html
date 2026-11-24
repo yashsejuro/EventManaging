@@ -12,32 +12,32 @@
 {% block content %}
   <div class="clubevents-dashboard__hero">
     <div>
-      <p>Campus operations</p>
-      <h1>Good afternoon.</h1>
-      <span>Here is what is happening across ClubEvents.</span>
+      <p class="clubevents-eyebrow"><span></span> Campus operations console</p>
+      <h1>Welcome, {{ user.first_name|default:user.username }}.</h1>
+      <span>Live overview of campus events, registrations, and student community activity.</span>
     </div>
   </div>
 
   <section class="clubevents-stats" aria-label="ClubEvents statistics">
     <article>
-      <span>People</span>
+      <span class="clubevents-stat-label"><i class="dot dot--violet"></i> People</span>
       <strong>{{ clubevents_user_count|default:0 }}</strong>
-      <small>User accounts</small>
+      <small>Registered accounts</small>
     </article>
     <article>
-      <span>Published</span>
+      <span class="clubevents-stat-label"><i class="dot dot--lime"></i> Published</span>
       <strong>{{ clubevents_event_count|default:0 }}</strong>
-      <small>Total events</small>
+      <small>Total events hosted</small>
     </article>
     <article>
-      <span>Upcoming</span>
+      <span class="clubevents-stat-label"><i class="dot dot--cyan"></i> Upcoming</span>
       <strong>{{ clubevents_upcoming_count|default:0 }}</strong>
-      <small>On the calendar</small>
+      <small>On the campus calendar</small>
     </article>
     <article>
-      <span>Bookings</span>
+      <span class="clubevents-stat-label"><i class="dot dot--coral"></i> Bookings</span>
       <strong>{{ clubevents_registration_count|default:0 }}</strong>
-      <small>Registrations</small>
+      <small>Tickets & seats claimed</small>
     </article>
   </section>
 
@@ -60,10 +60,10 @@
                     <th scope="row">{{ model.name }}</th>
                   {% endif %}
                   <td>
-                    {% if model.add_url %}<a href="{{ model.add_url }}" class="addlink">{% translate "Add" %}</a>{% endif %}
+                    {% if model.add_url %}<a href="{{ model.add_url }}" class="addlink">+ Add</a>{% endif %}
                   </td>
                   <td>
-                    {% if model.admin_url %}<a href="{{ model.admin_url }}" class="changelink">{% translate "View" %}</a>{% endif %}
+                    {% if model.admin_url %}<a href="{{ model.admin_url }}" class="changelink">Manage</a>{% endif %}
                   </td>
                 </tr>
               {% endfor %}
