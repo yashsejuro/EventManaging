@@ -4,10 +4,11 @@ from datetime import timedelta
 
 from django.contrib.auth.models import Group, User
 from django.contrib.contenttypes.models import ContentType
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
+from clubevents.storage import ClubEventsMediaStorage
 from .models import Event, Registration
 
 
@@ -71,3 +72,25 @@ class OrganizerPermissionTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse("events:organizer_dashboard"))
         self.assertEqual(response.status_code, 403)
+
+
+class Phase1FoundationTests(TestCase):
+    @override_settings(DEBUG=False)
+    def test_custom_404_page(self):
+        response = self.client.get("/route-that-definitely-does-not-exist/")
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, "404.html")
+
+    @override_settings(DEBUG=False)
+    def test_custom_403_page(self):
+        student = User.objects.create_user("student_403", password="pass12345")
+        self.client.force_login(student)
+        response = self.client.get(reverse("events:organizer_dashboard"))
+        self.assertEqual(response.status_code, 403)
+        self.assertTemplateUsed(response, "403.html")
+
+    def test_demo_poster_storage_url(self):
+        storage = ClubEventsMediaStorage()
+        url = storage.url("posters/demo/build-night.svg")
+        self.assertTrue(url.startswith("/media/posters/demo/"))
+

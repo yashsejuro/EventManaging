@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Something went wrong — ClubEvents{% endblock %}
+{% block content %}
+  <section class="confirm-page shell">
+    <div class="confirm-card glass glass--strong" data-glass-card>
+      <p class="eyebrow eyebrow--danger"><span></span> 500 · Server error</p>
+      <h1>Something tripped on our <em>end</em>.</h1>
+      <p>We ran into an unexpected error while preparing this page. Your registrations are safe—please try again in a moment.</p>
+      <div class="form-actions">
+        <a class="button button--outline" href="/">Back to home</a>
+        <a class="button button--primary" href="/events/">Explore events <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Access denied — ClubEvents{% endblock %}
+{% block content %}
+  <section class="confirm-page shell">
+    <div class="confirm-card glass glass--strong" data-glass-card>
+      <p class="eyebrow eyebrow--danger"><span></span> 403 · Restricted</p>
+      <h1>Hold on, this door is <em>locked</em>.</h1>
+      <p>You do not have permission to view this page. If you manage a club, make sure you are signed in with an organizer account.</p>
+      <div class="form-actions">
+        <a class="button button--outline" href="{% url 'events:home' %}">Back to home</a>
+        <a class="button button--primary" href="{% url 'events:event_list' %}">Explore events <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -17,7 +17,7 @@ staticfiles_build/
 .env
 .env.*
 !.env.example
-
+demo
 # IDE
 .vscode/
 .idea/
