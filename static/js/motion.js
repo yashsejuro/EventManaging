@@ -40,20 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const header = document.querySelector("[data-site-header]");
-  if (header && !reducedMotion) {
-    let previousY = window.scrollY;
-    const updateHeader = () => {
-      const currentY = window.scrollY;
-      header.classList.toggle("is-scrolled", currentY > 40);
-      header.classList.toggle("is-hidden", currentY > previousY && currentY > 160);
-      previousY = currentY;
-    };
-    window.addEventListener("scroll", updateHeader, { passive: true });
-    updateHeader();
-  } else if (header) {
-    header.classList.toggle("is-scrolled", window.scrollY > 40);
-  }
+
 
   document.querySelectorAll("[data-glass-card]").forEach((card) => {
     card.addEventListener("pointermove", (event) => {

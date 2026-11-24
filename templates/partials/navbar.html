@@ -1,5 +1,5 @@
-<header class="site-header glass--subtle" data-site-header>
-  <nav class="nav shell" aria-label="Primary navigation">
+<header class="site-header" data-site-header>
+  <nav class="nav" aria-label="Main">
     <a class="brand" href="{% url 'events:home' %}" aria-label="ClubEvents home">
       <span class="brand__icon">
         <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -8,33 +8,131 @@
           <circle cx="50" cy="14" r="7" fill="#8067ff"/>
         </svg>
       </span>
-      <span class="brand__text">Club<span>Events</span></span>
+      <span class="brand__text">Club<span class="brand__accent">Events</span></span>
     </a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
-      <span class="sr-only">Toggle navigation</span><i></i><i></i>
+
+    {# Desktop Center Links with Sliding Active Indicator #}
+    <div class="nav-links" data-nav-links>
+      <span class="nav-links__indicator" aria-hidden="true" data-nav-indicator></span>
+      <a href="{% url 'events:event_list' %}" class="nav-link{% if request.resolver_match.url_name in 'event_list,event_detail' %} is-active{% endif %}" {% if request.resolver_match.url_name in 'event_list,event_detail' %}aria-current="page"{% endif %}>Explore events</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'events:my_registrations' %}" class="nav-link{% if request.resolver_match.url_name == 'my_registrations' %} is-active{% endif %}" {% if request.resolver_match.url_name == 'my_registrations' %}aria-current="page"{% endif %}>My tickets</a>
+        {% if user.is_superuser or perms.events.add_event %}
+          <a href="{% url 'events:organizer_dashboard' %}" class="nav-link{% if request.resolver_match.url_name in 'organizer_dashboard,event_create,event_edit,event_delete,event_registrants' %} is-active{% endif %}" {% if request.resolver_match.url_name in 'organizer_dashboard,event_create,event_edit,event_delete,event_registrants' %}aria-current="page"{% endif %}>Organizer</a>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {# Desktop Auth Section #}
+    <div class="nav-actions">
+      {% if user.is_authenticated %}
+        <div class="nav-user-menu" data-user-menu>
+          <button class="nav-avatar-btn" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="user-dropdown" aria-label="User menu for {{ user.first_name|default:user.username }}" data-user-menu-trigger>
+            <span class="nav-avatar" aria-hidden="true">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+            <span class="nav-avatar-name">{{ user.first_name|default:user.username }}</span>
+            <svg class="nav-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="nav-dropdown" id="user-dropdown" role="menu" data-user-dropdown hidden>
+            <div class="nav-dropdown__header">
+              <p class="nav-dropdown__greeting">Hi, {{ user.first_name|default:user.username }}</p>
+              <span class="nav-dropdown__email">{{ user.email|default:user.username }}</span>
+            </div>
+            <div class="nav-dropdown__divider"></div>
+            <a href="{% url 'events:my_registrations' %}" class="nav-dropdown__item" role="menuitem">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+              </svg>
+              My tickets
+            </a>
+            {% if user.is_staff or user.is_superuser %}
+              <a href="{% url 'admin:index' %}" class="nav-dropdown__item" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                Admin panel
+              </a>
+            {% endif %}
+            {% if user.is_superuser or perms.events.add_event %}
+              <a href="{% url 'events:organizer_dashboard' %}" class="nav-dropdown__item" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                </svg>
+                Organizer dashboard
+              </a>
+            {% endif %}
+            <div class="nav-dropdown__divider"></div>
+            <form action="{% url 'accounts:logout' %}" method="post" class="nav-dropdown__form">
+              {% csrf_token %}
+              <button type="submit" class="nav-dropdown__item nav-dropdown__item--danger" role="menuitem">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Log out
+              </button>
+            </form>
+          </div>
+        </div>
+      {% else %}
+        <a class="nav-link nav-link--login" href="{% url 'accounts:login' %}">Log in</a>
+        <a class="button button--lime button--signup" href="{% url 'accounts:signup' %}">
+          Sign up <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
+      {% endif %}
+    </div>
+
+    {# Mobile Toggle Button (Morphs to X) #}
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Toggle navigation menu" data-nav-toggle>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <span class="nav-toggle__bar" aria-hidden="true"></span>
     </button>
-    <div class="nav-menu" id="nav-menu" data-nav-menu>
-      <div class="nav-links">
-        <a href="{% url 'events:event_list' %}">Explore events</a>
+  </nav>
+
+  {# Mobile Navigation Drawer #}
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav aria-hidden="true">
+    <div class="mobile-nav__backdrop" data-mobile-backdrop></div>
+    <div class="mobile-nav__panel">
+      <div class="mobile-nav__links">
+        <a href="{% url 'events:event_list' %}" class="mobile-nav__link{% if request.resolver_match.url_name in 'event_list,event_detail' %} is-active{% endif %}" {% if request.resolver_match.url_name in 'event_list,event_detail' %}aria-current="page"{% endif %} style="--i: 0;">
+          Explore events
+        </a>
         {% if user.is_authenticated %}
-          <a href="{% url 'events:my_registrations' %}">My tickets</a>
+          <a href="{% url 'events:my_registrations' %}" class="mobile-nav__link{% if request.resolver_match.url_name == 'my_registrations' %} is-active{% endif %}" {% if request.resolver_match.url_name == 'my_registrations' %}aria-current="page"{% endif %} style="--i: 1;">
+            My tickets
+          </a>
           {% if user.is_superuser or perms.events.add_event %}
-            <a href="{% url 'events:organizer_dashboard' %}">Organizer</a>
+            <a href="{% url 'events:organizer_dashboard' %}" class="mobile-nav__link{% if request.resolver_match.url_name in 'organizer_dashboard,event_create,event_edit,event_delete,event_registrants' %} is-active{% endif %}" {% if request.resolver_match.url_name in 'organizer_dashboard,event_create,event_edit,event_delete,event_registrants' %}aria-current="page"{% endif %} style="--i: 2;">
+              Organizer
+            </a>
+          {% endif %}
+          {% if user.is_staff or user.is_superuser %}
+            <a href="{% url 'admin:index' %}" class="mobile-nav__link" style="--i: 3;">
+              Admin panel
+            </a>
           {% endif %}
         {% endif %}
       </div>
-      <div class="nav-actions">
+      <div class="mobile-nav__footer" style="--i: 4;">
         {% if user.is_authenticated %}
-          <span class="nav-greeting">Hi, {{ user.first_name|default:user.username }}</span>
+          <div class="mobile-nav__user-card">
+            <span class="nav-avatar" aria-hidden="true">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+            <div class="mobile-nav__user-details">
+              <strong>{{ user.first_name|default:user.username }}</strong>
+              <small>{{ user.email|default:user.username }}</small>
+            </div>
+          </div>
           <form action="{% url 'accounts:logout' %}" method="post">
             {% csrf_token %}
-            <button class="text-button" type="submit">Log out</button>
+            <button type="submit" class="button button--outline button--block">Log out</button>
           </form>
         {% else %}
-          <a class="text-button" href="{% url 'accounts:login' %}">Log in</a>
-          <a class="button button--small button--magnetic" href="{% url 'accounts:signup' %}" data-magnetic>Join the club <span aria-hidden="true">↗</span></a>
+          <a class="button button--outline button--block" href="{% url 'accounts:login' %}">Log in</a>
+          <a class="button button--lime button--block" href="{% url 'accounts:signup' %}">
+            Sign up <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
         {% endif %}
       </div>
     </div>
-  </nav>
+  </div>
 </header>
