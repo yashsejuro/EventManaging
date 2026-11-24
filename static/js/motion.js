@@ -111,11 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         const text = statement.textContent;
         statement.textContent = "";
-        words = text.trim().split(/\s+/).map((word) => {
+        const wordList = text.trim().split(/\s+/);
+        words = wordList.map((word, index) => {
           const span = document.createElement("span");
           span.className = "word";
-          span.textContent = `${word} `;
+          span.textContent = word;
           statement.appendChild(span);
+          if (index < wordList.length - 1) {
+            statement.appendChild(document.createTextNode(" "));
+          }
           return span;
         });
       }
