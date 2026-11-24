@@ -25,6 +25,9 @@ staticfiles_build/
 # OS
 Thumbs.db
 .DS_Store
-node_modules
+
+# Cache & Dependencies
+.uv-cache/
+node_modules/
 package.json
 package-lock.json

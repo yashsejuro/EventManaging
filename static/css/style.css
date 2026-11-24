@@ -155,8 +155,31 @@ button { cursor: pointer; }
 }
 .site-header.is-hidden { transform: translateY(-105%); }
 .nav { display: flex; align-items: center; justify-content: space-between; }
-.brand { font-family: "Space Grotesk", sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -1.5px; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  text-decoration: none;
+}
 .brand span { color: var(--violet); }
+.brand__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  transition: transform .25s ease;
+}
+.brand:hover .brand__icon {
+  transform: scale(1.1) rotate(-4deg);
+}
+.brand__text {
+  display: inline-block;
+  color: var(--ink);
+}
 .nav-menu, .nav-links, .nav-actions { display: flex; align-items: center; }
 .nav-menu { flex: 1; justify-content: space-between; margin-left: 55px; }
 .nav-links { gap: 28px; font-size: 14px; font-weight: 600; }
@@ -194,10 +217,38 @@ h1 em, h2 em { color: var(--violet); font-style: normal; }
 .hero__bottom p { max-width: 410px; margin: 0; color: #56554f; }
 .hero__scroll { position: absolute; right: 25px; bottom: 25px; z-index: 3; writing-mode: vertical-rl; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
 
-.marquee { overflow: hidden; background: var(--lime); border-block: 1px solid var(--ink); }
-.marquee__track { display: flex; width: max-content; animation: marquee 22s linear infinite; }
-.marquee__group { display: flex; align-items: center; gap: 28px; height: 78px; padding-right: 28px; font-family: "Space Grotesk"; font-size: 22px; font-weight: 700; text-transform: uppercase; }
-@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee {
+  overflow: hidden;
+  background: var(--lime);
+  border-block: 1px solid var(--ink);
+  user-select: none;
+  white-space: nowrap;
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee 35s linear infinite;
+}
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+.marquee__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 32px;
+  height: 76px;
+  padding-right: 32px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 .section { padding-block: 110px; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 50px; }

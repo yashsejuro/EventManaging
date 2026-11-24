@@ -1,108 +1,113 @@
-# ClubEvents
+# ClubEvents — Campus, in Motion ⚡
 
 <div align="center">
 
-<img src="static/images/favicon.svg" alt="ClubEvents logo" width="96" height="96">
+<img src="static/images/favicon.svg" alt="ClubEvents Logo" width="100" height="100">
 
-**Discover, join, and organize campus events.**
+### Discover, join, and organize unforgettable campus experiences.
 
-[![Django](https://img.shields.io/badge/Django-5.2-092E20?logo=django&logoColor=white)](https://www.djangoproject.com/)
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Deployed with Vercel](https://img.shields.io/badge/Deployed%20with-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
+**🌐 Live Platform:** [https://eventmanaging-blue.vercel.app](https://eventmanaging-blue.vercel.app)
+
+[![Live Site](https://img.shields.io/badge/Live_Site-Online-success?style=for-the-badge&logo=vercel&logoColor=white)](https://eventmanaging-blue.vercel.app)
+[![Django](https://img.shields.io/badge/Django-5.2-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 </div>
 
-## Features
+---
 
-- Browse and filter public campus events
-- View event details and register for events
-- Manage personal registrations and tickets
-- Organizer dashboard for creating, editing, and deleting events
-- Attendance controls and CSV export for organizers
-- Responsive design with browser-ready favicon and social share card
+## 🌟 What is ClubEvents?
 
-## Run locally
+University portals and campus bulletin boards are usually scattered, clunky, and outdated. Important hackathons get lost in chat groups, workshop registrations fill up silently, and sports tournaments struggle with manual attendance sheets.
 
-Requires Python 3.12.
+**ClubEvents** reimagines the campus experience. It brings your university's entire social and academic calendar into one motion-driven, beautifully crafted community hub. Whether you're a freshman hunting for a robotics workshop or a club president running an annual cultural fest, ClubEvents makes it effortless.
+
+---
+
+## ✨ Features at a Glance
+
+### 🎓 For Students & Attendees
+* **Explore by Vibe & Category**: Filter events seamlessly across **Tech, Workshops, Guest Talks, Cultural Fests, Gaming, and Sports**.
+* **Real-Time Seat Tracking**: Live countdown of remaining spots—never wonder if an auditorium has space left.
+* **Instant One-Click RSVP**: Reserve a seat in seconds and receive an automated digital entry pass.
+* **Personal Ticket Wallet**: Access all your registered passes, dates, timings, and venues under **My Tickets**.
+* **Zero Lag & Fluid Motion**: Experience smooth kinetic scrolling, interactive 3D hero canvas, and atmospheric ambient lighting.
+
+### 🛠️ For Club Leads & Organizers
+* **Organizer Command Center**: Create, publish, update, and manage campus events with custom cover posters and capacity limits.
+* **Live Attendee Management**: Track bookings in real time as registrations roll in.
+* **One-Click CSV Export**: Download instant attendance sheets ready for university administration and faculty advisors.
+* **Campus Operations Console**: A custom-designed, glassmorphic management dashboard featuring live metric cards and recent community activity feeds.
+
+---
+
+## 🎨 Visual Design & Aesthetics
+
+ClubEvents is built on a custom design system prioritizing kinetic energy and modern web aesthetics:
+
+* **Typography**: Expressive headline hierarchy using **Space Grotesk**, paired with ultra-legible **Inter** for UI copy.
+* **Atmospheric Glassmorphism**: Frosted glass cards with backdrop blur filters, glowing lime (`#d6ff3f`) and electric violet (`#8067ff`) ambient lighting.
+* **Infinite Energy**: High-velocity category marquee and interactive Three.js 3D physics geometry.
+* **Mobile-First Responsiveness**: Designed from the ground up for smartphones, tablets, and desktop displays.
+
+---
+
+## 🚀 Live Demo & Quick Links
+
+| Destination | Link | Description |
+|---|---|---|
+| **Public Website** | [eventmanaging-blue.vercel.app](https://eventmanaging-blue.vercel.app) | Explore public events, view schedules, and register |
+| **Event Discovery** | [eventmanaging-blue.vercel.app/events/](https://eventmanaging-blue.vercel.app/events/) | Filter by Tech, Talks, Cultural, and Sports |
+| **Admin Console** | [eventmanaging-blue.vercel.app/admin/](https://eventmanaging-blue.vercel.app/admin/) | Real-time campus metrics & operations |
+
+---
+
+## 🛠️ Technology Stack
+
+* **Core Framework**: Django 5.2 & Python 3.12
+* **Database**: PostgreSQL (Production) / SQLite (Local Demo)
+* **Frontend Design**: Semantic HTML5, Modern CSS3 with CSS Variables & Glassmorphism, Three.js 3D Canvas, GSAP, Lenis Smooth Scroll
+* **Deployment & Cloud**: Vercel Serverless Functions (`@vercel/python`) with Edge CDN Static Pipelines (`@vercel/static-build`) & WhiteNoise
+* **Telemetry**: Integrated Vercel Web Analytics
+
+---
+
+<details>
+<summary><b>💻 For Developers: Running Locally</b></summary>
+
+<br>
+
+If you want to clone and run ClubEvents on your local machine:
 
 ```powershell
+# 1. Clone repository
+git clone https://github.com/yashsejuro/EventManaging.git
+cd EventManaging
+
+# 2. Create and activate virtual environment
 py -m venv .venv
-.\\.venv\\Scripts\\Activate.ps1
-python -m pip install -r requirements.txt
+.\.venv\Scripts\Activate.ps1   # On macOS/Linux: source .venv/bin/activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Migrate database and seed demo events
 python manage.py migrate
 python manage.py seed_demo
+
+# 5. Start development server
 python manage.py runserver
 ```
 
-Open `http://127.0.0.1:8000/`.
+Open `http://127.0.0.1:8000/` in your browser.
 
-Demo accounts can be recreated from the seed command. The seed command is also safe to rerun, but check `python manage.py seed_demo --help` for its options.
+</details>
 
-## Deploy to Vercel
+---
 
-Vercel will run Django through `clubevents/wsgi.py`. Static files are compressed and served by WhiteNoise.
+<div align="center">
 
-### 1. Push the project to GitHub
+Made with 💛 for the people who make campus happen.
 
-```powershell
-git add .
-git commit -m "Prepare ClubEvents for Vercel"
-git push origin main
-```
-
-### 2. Import the repository
-
-1. Sign in at [vercel.com](https://vercel.com/) with GitHub.
-2. Select **Add New... > Project**.
-3. Import `yashsejuro/EventManaging`.
-4. Keep the project as a **Python**/other framework project; do not select a frontend framework preset.
-5. Add the environment variables below.
-6. Select **Deploy**.
-
-### 3. Environment variables
-
-Set these in **Project Settings > Environment Variables**:
-
-| Variable | Example/value |
-| --- | --- |
-| `DJANGO_SECRET_KEY` | A long, random secret. Generate it with `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"` |
-| `DJANGO_DEBUG` | `False` |
-| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1,.vercel.app,your-project.vercel.app,your-custom-domain.com` |
-| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://your-project.vercel.app,https://your-custom-domain.com` |
-| `DATABASE_URL` | PostgreSQL connection URL |
-
-The `DATABASE_URL` value is strongly recommended. Vercel serverless functions have a read-only/ephemeral filesystem, so SQLite changes may disappear and concurrent instances may not share them. Use a managed PostgreSQL database (such as Neon or Vercel Postgres), then run migrations from a local machine or deployment command:
-
-```powershell
-$env:DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DATABASE"
-$env:DJANGO_SECRET_KEY="a-long-random-secret"
-python manage.py migrate
-python manage.py seed_demo
-```
-
-### 4. Custom domain
-
-In Vercel, open **Domains**, add the domain, and follow the DNS instructions. Add the final HTTPS domain to both `DJANGO_ALLOWED_HOSTS` and `DJANGO_CSRF_TRUSTED_ORIGINS`.
-
-For example:
-
-```text
-DJANGO_ALLOWED_HOSTS=your-project.vercel.app,events.example.com,.vercel.app
-DJANGO_CSRF_TRUSTED_ORIGINS=https://your-project.vercel.app,https://events.example.com
-```
-
-Redeploy after changing environment variables.
-
-The Vercel build runs migrations and seeds repeatable demo data automatically.
-It is safe to redeploy because `seed_demo` uses `get_or_create` for demo users
-and events.
-
-## Production checks
-
-Run these before sharing the deployment:
-
-```powershell
-python manage.py check --deploy
-python manage.py makemigrations --check
-python manage.py test
-```
+</div>

@@ -1,6 +1,15 @@
 <header class="site-header glass--subtle" data-site-header>
   <nav class="nav shell" aria-label="Primary navigation">
-    <a class="brand" href="{% url 'events:home' %}" aria-label="ClubEvents home">Club<span>Events</span></a>
+    <a class="brand" href="{% url 'events:home' %}" aria-label="ClubEvents home">
+      <span class="brand__icon">
+        <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="64" height="64" rx="18" fill="#171718"/>
+          <path d="M14 34c0-12 8-21 20-21 7 0 13 3 17 8l-8 7c-2-3-5-5-9-5-6 0-10 5-10 11s4 11 10 11c4 0 7-2 9-5l8 7c-4 5-10 8-17 8-12 0-20-9-20-21Z" fill="#d6ff3f"/>
+          <circle cx="50" cy="14" r="7" fill="#8067ff"/>
+        </svg>
+      </span>
+      <span class="brand__text">Club<span>Events</span></span>
+    </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
       <span class="sr-only">Toggle navigation</span><i></i><i></i>
     </button>
