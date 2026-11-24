@@ -15,7 +15,7 @@
       {% if request.GET.q or request.GET.category %}<a class="filter-reset" href="{% url 'events:event_list' %}">Clear filters</a>{% endif %}
       <div class="view-switch" aria-label="View layout"><button type="button" class="is-active" data-view="grid" aria-label="Grid view" aria-pressed="true">▦</button><button type="button" data-view="list" aria-label="List view" aria-pressed="false">☷</button></div>
     </form>
-    <div class="listing-summary"><p><strong>{{ page_obj.paginator.count|default:events|length }}</strong> event{{ page_obj.paginator.count|pluralize }} found</p></div>
+    <div class="listing-summary"><p><strong>{{ page_obj.paginator.count }}</strong> event{{ page_obj.paginator.count|pluralize }} found</p></div>
     <div class="events-grid" data-event-grid>
       {% for event in events %}{% include "partials/event_card.html" with event=event %}{% empty %}
         <div class="empty-state empty-state--wide"><p class="eyebrow"><span></span> No matches</p><h2>That event is hiding.</h2><p>Try a different search or clear the filters to see everything.</p><a class="button button--small" href="{% url 'events:event_list' %}">See all events</a></div>

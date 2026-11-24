@@ -776,7 +776,7 @@ h1 em, h2 em { color: var(--violet); font-style: normal; }
 .events-grid--featured { grid-auto-flow: column; grid-auto-columns: calc((100% - 44px) / 3); grid-template-columns: none; overflow: hidden; }
 .event-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .event-card__media { height: 270px; display: block; position: relative; overflow: hidden; background: #ddd8cc; }
-.event-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.event-card__media img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform .5s; }
 .event-card:hover img { transform: scale(1.04); }
 .event-card__body { padding: 20px; }
 .event-card__meta, .event-card__bottom { display: flex; justify-content: space-between; align-items: center; }
@@ -836,7 +836,7 @@ h1 em, h2 em { color: var(--violet); font-style: normal; }
 .back-link { display: inline-block; margin-bottom: 28px; color: var(--muted); }
 .event-detail__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
 .event-detail__visual { height: 620px; border-radius: var(--radius); overflow: hidden; background: #ddd8cc; }
-.event-detail__visual img { width: 100%; height: 100%; object-fit: cover; }
+.event-detail__visual img { width: 100%; height: 100%; object-fit: contain; object-position: center; background: #ddd8cc; }
 .event-detail__content h1 { font-size: clamp(45px, 6vw, 72px); line-height: .92; letter-spacing: -4px; }
 .event-detail__facts { display: grid; grid-template-columns: repeat(3,1fr); border-block: 1px solid var(--line); margin-block: 30px; padding-block: 18px; }
 .event-detail__facts div { border-right: 1px solid var(--line); padding-inline: 14px; }
@@ -870,7 +870,7 @@ h1 em, h2 em { color: var(--violet); font-style: normal; }
 .tickets-list { display: grid; gap: 12px; }
 .ticket-card { min-height: 170px; display: grid; grid-template-columns: 180px 1fr auto; align-items: stretch; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .ticket-card__poster { min-height: 170px; }
-.ticket-card__poster img { width: 100%; height: 100%; object-fit: cover; }
+.ticket-card__poster img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .ticket-card__main { padding: 25px; }
 .ticket-card__main h2 { margin: 12px 0 8px; }
 .ticket-card__main p:last-child { color: var(--muted); }
