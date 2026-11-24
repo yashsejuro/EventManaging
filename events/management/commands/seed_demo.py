@@ -31,13 +31,22 @@ class Command(BaseCommand):
         )
         organizer_group.permissions.set(organizer_permissions)
 
+        admin_user, _ = user_model.objects.get_or_create(
+            username="admin",
+            defaults={"email": "admin@clubevents.local", "first_name": "Admin"},
+        )
+        admin_user.is_staff = True
+        admin_user.is_superuser = True
+        admin_user.set_password("admin12345")
+        admin_user.save()
+
         organizer, created = user_model.objects.get_or_create(
             username="organizer",
             defaults={"email": "organizer@clubevents.local", "first_name": "Aarav"},
         )
-        if created:
-            organizer.set_password("demo12345")
-            organizer.save()
+        organizer.is_staff = True
+        organizer.set_password("demo12345")
+        organizer.save()
         organizer.groups.add(organizer_group)
 
         student, created = user_model.objects.get_or_create(

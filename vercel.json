@@ -23,6 +23,10 @@
       "dest": "/static/images/favicon.svg"
     },
     {
+      "src": "/media/posters/demo/(.*)",
+      "dest": "/static/posters/demo/$1"
+    },
+    {
       "src": "/static/(.*)",
       "dest": "/static/$1"
     },

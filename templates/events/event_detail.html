@@ -5,7 +5,12 @@
     <a class="back-link" href="{% url 'events:event_list' %}">← All events</a>
     <div class="event-detail__grid">
       <div class="event-detail__visual" data-reveal data-poster-parallax>
-        {% if event.poster %}<img src="{{ event.poster.url }}" alt="Poster for {{ event.title }}">{% else %}<div class="poster-fallback poster-fallback--{{ event.category|lower }}"><span>{{ event.category }}</span><b>{{ event.title|slice:':1' }}</b></div>{% endif %}
+        {% if event.poster %}
+          <img src="{{ event.poster.url }}" alt="Poster for {{ event.title }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+          <div class="poster-fallback poster-fallback--{{ event.category|lower }}" style="display:none;"><span>{{ event.category }}</span><b>{{ event.title|slice:':1' }}</b></div>
+        {% else %}
+          <div class="poster-fallback poster-fallback--{{ event.category|lower }}"><span>{{ event.category }}</span><b>{{ event.title|slice:':1' }}</b></div>
+        {% endif %}
       </div>
       <div class="event-detail__content glass glass--strong" data-booking-panel>
         <p class="eyebrow"><span></span> {{ event.category }}</p>
