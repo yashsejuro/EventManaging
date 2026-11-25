@@ -1,8 +1,6 @@
-Django>=5.2,<6.0                         # Core web framework
-Pillow>=10.0                             # ImageField validation and processing
-dj-database-url>=2.2,<4.0                # Parse DATABASE_URL for Neon PostgreSQL
-psycopg[binary]>=3.2,<4.0                # PostgreSQL database adapter
-whitenoise>=6.7,<7.0                     # Serve compressed static files directly
-python-dotenv>=1.0,<2.0                  # Load local .env configuration files
-cloudinary>=1.41,<2.0                    # Cloudinary SDK for persistent media storage
-django-cloudinary-storage>=0.3.0,<1.0    # Django storage backend for Cloudinary media
+Django>=5.2,<6.0         # Core web framework
+Pillow>=10.0             # ImageField validation and processing
+dj-database-url>=2.2,<4.0 # Optional DATABASE_URL support (defaults to SQLite)
+psycopg[binary]>=3.2,<4.0 # PostgreSQL adapter when DATABASE_URL is provided
+whitenoise>=6.7,<7.0     # Serve static files cleanly on Vercel
+python-dotenv>=1.0,<2.0  # Load local .env file in development

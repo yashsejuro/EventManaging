@@ -1,8 +1,6 @@
 """Core business-rule tests for registration and organizer access."""
 
 from datetime import timedelta
-import os
-from unittest import mock
 
 from django.contrib.auth.models import Group, User
 from django.contrib.contenttypes.models import ContentType
@@ -89,12 +87,4 @@ class Phase1FoundationTests(TestCase):
         response = self.client.get(reverse("events:organizer_dashboard"))
         self.assertEqual(response.status_code, 403)
         self.assertTemplateUsed(response, "403.html")
-
-    def test_demo_poster_storage_url(self):
-        with mock.patch.dict(os.environ, {"CLOUDINARY_URL": "cloudinary://123456:secret@demo"}):
-            from clubevents.storage import ClubEventsMediaStorage
-
-            storage = ClubEventsMediaStorage()
-            url = storage.url("posters/demo/build-night.svg")
-            self.assertTrue(url.startswith("/media/posters/demo/"))
 

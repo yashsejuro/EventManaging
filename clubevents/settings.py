@@ -191,33 +191,9 @@ STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# Cloudinary for uploaded media only; WhiteNoise serves static files cleanly.
-CLOUDINARY_URL = _env("CLOUDINARY_URL")
-CLOUDINARY_CLOUD_NAME = _env("CLOUDINARY_CLOUD_NAME")
-CLOUDINARY_API_KEY = _env("CLOUDINARY_API_KEY")
-CLOUDINARY_API_SECRET = _env("CLOUDINARY_API_SECRET")
-HAS_CLOUDINARY = bool(
-    CLOUDINARY_URL
-    or (CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET)
-)
-
-if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
-    CLOUDINARY_STORAGE = {
-        "CLOUD_NAME": CLOUDINARY_CLOUD_NAME,
-        "API_KEY": CLOUDINARY_API_KEY,
-        "API_SECRET": CLOUDINARY_API_SECRET,
-        "SECURE": True,
-    }
-
-DEFAULT_MEDIA_STORAGE = (
-    "clubevents.storage.ClubEventsMediaStorage"
-    if HAS_CLOUDINARY
-    else "django.core.files.storage.FileSystemStorage"
-)
-
 STORAGES = {
     "default": {
-        "BACKEND": DEFAULT_MEDIA_STORAGE,
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
