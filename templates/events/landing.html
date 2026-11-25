@@ -77,4 +77,13 @@
     <a class="button button--primary button--magnetic" href="{% url 'accounts:signup' %}" data-magnetic>Join ClubEvents <span aria-hidden="true">↗</span></a>
   </section>
 {% endblock %}
-{% block extra_scripts %}<script type="module" src="{% static 'js/hero3d.js' %}"></script>{% endblock %}
+{% block extra_scripts %}
+  <script type="module">
+    const canRun3D =
+      window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 768px)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (canRun3D) {
+      import("{% static 'js/hero3d.js' %}");
+    }
+  </script>
+{% endblock %}
