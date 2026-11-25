@@ -21,15 +21,6 @@ body {
   line-height: 1.5;
   overflow-x: clip;
 }
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .04;
-  z-index: 50;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.15'/%3E%3C/svg%3E");
-}
 
 /* Premium glass and fixed atmosphere */
 .scroll-progress {
@@ -65,9 +56,8 @@ main,
   min-width: 320px;
   min-height: 320px;
   border-radius: 50%;
-  filter: blur(110px);
+  filter: blur(64px);
   opacity: .42;
-  will-change: transform;
 }
 .ambient-blob--lime { left: -12vw; top: 8vh; background: #d6ff3f; }
 .ambient-blob--violet { right: -10vw; top: 30vh; background: #8067ff; }
@@ -1073,8 +1063,7 @@ h1 em, h2 em { color: var(--violet); font-style: normal; }
 .event-detail__visual img,
 .event-card__media img,
 .ticket-card__poster img {
-  transform: translateZ(0);
-  will-change: transform;
+  display: block;
 }
 
 .site-footer {

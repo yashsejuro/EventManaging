@@ -19,9 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
   let lenis = null;
-  if (!reducedMotion && publicPage && window.Lenis) {
+  const desktopFinePointer = window.matchMedia("(pointer: fine) and (min-width: 900px)").matches;
+  if (!reducedMotion && publicPage && desktopFinePointer && window.Lenis) {
     lenis = new window.Lenis({
-      duration: 1.15,
+      duration: 1.05,
       smoothWheel: true,
       wheelMultiplier: 0.9,
     });
@@ -50,16 +51,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.querySelectorAll("[data-ambient-blob]").forEach((blob, index) => {
-    gsap.to(blob, {
-      x: index % 2 ? "8vw" : "-6vw",
-      y: index === 1 ? "-8vh" : "10vh",
-      duration: 12 + index * 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
+  if (desktopFinePointer && !reducedMotion) {
+    document.querySelectorAll("[data-ambient-blob]").forEach((blob, index) => {
+      gsap.to(blob, {
+        x: index % 2 ? "6vw" : "-5vw",
+        y: index === 1 ? "-6vh" : "8vh",
+        duration: 14 + index * 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
     });
-  });
+  }
 
   gsap.to("[data-ambient-blob]", {
     filter: "blur(110px) hue-rotate(38deg)",
@@ -192,24 +195,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const tiltCards = gsap.utils.toArray("[data-tilt-card]");
   if (tiltCards.length) {
     if (!reducedMotion) {
+      gsap.set(tiltCards, { y: 24, opacity: 0 });
       ScrollTrigger.batch(tiltCards, {
-        start: "top 88%",
+        start: "top 90%",
         onEnter: (batch) => gsap.to(batch, {
-          clipPath: "inset(0)",
-          filter: "blur(0px)",
           y: 0,
           opacity: 1,
-          stagger: 0.12,
-          duration: 0.9,
-          ease: "expo.out",
+          stagger: 0.08,
+          duration: 0.65,
+          ease: "power3.out",
         }),
         once: true,
       });
     }
-    gsap.set(tiltCards, {
-      clipPath: reducedMotion ? "inset(0)" : "inset(100% 0 0 0)",
-      filter: reducedMotion ? "blur(0px)" : "blur(12px)",
-    });
   }
 
   document.querySelectorAll("[data-poster-parallax]").forEach((poster) => {
