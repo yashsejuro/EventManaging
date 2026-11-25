@@ -2,7 +2,7 @@
 <article class="event-card glass glass--subtle" data-tilt-card data-glass-card>
   <a class="event-card__media" href="{% url 'events:event_detail' event.slug %}" aria-label="View {{ event.title }}">
     {% if event.poster %}
-      <img src="{{ event.poster.url }}" alt="Poster for {{ event.title }}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+      <img src="{{ event.poster.url }}" alt="Poster for {{ event.title }}" width="800" height="540" loading="lazy" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
       <span class="poster-fallback poster-fallback--{{ event.category|lower }}" style="display:none;" aria-hidden="true">
         <span>{{ event.category }}</span><b>{{ event.title|slice:':1' }}</b>
       </span>

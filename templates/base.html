@@ -18,8 +18,35 @@
   <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.svg' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root{--ink:#171718;--paper:#f4f1ea;--card:#fffdf8;--lime:#d6ff3f;--coral:#ff715b;--violet:#8067ff;--muted:#5f5d58;--line:rgba(23,23,24,.13);--radius:22px}
+    *{box-sizing:border-box}html{overflow-x:clip}body{margin:0;color:var(--ink);background:var(--paper);font-family:Inter,system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;overflow-x:clip}
+    img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
+    .shell{width:min(1180px,calc(100% - 48px));margin-inline:auto}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+    .skip-link{position:fixed;left:12px;top:-50px;z-index:120}
+    body:not(.page-home) main#main-content{padding-top:104px}
+    .site-header{position:fixed;top:16px;left:0;right:0;z-index:100;width:min(1180px,calc(100% - 36px));margin-inline:auto;border-radius:999px;padding:10px 14px 10px 20px;background:rgba(244,241,234,.92);border:1px solid rgba(23,23,24,.10)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%}
+    .brand{display:inline-flex;align-items:center;gap:10px;font-family:"Space Grotesk",system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:-1.2px;line-height:1}
+    .brand__accent{color:var(--violet)}
+    .nav-links{display:flex;align-items:center;gap:4px}
+    .nav-actions{display:flex;align-items:center;gap:12px}
+    .nav-toggle{display:none}
+    .mobile-nav{position:fixed;inset:0;opacity:0;pointer-events:none}
+    .hero{min-height:620px;height:calc(100svh - 82px);max-height:760px;position:relative;display:flex;align-items:center;border-left:1px solid var(--line);border-right:1px solid var(--line);overflow:hidden}
+    .hero__content{position:relative;z-index:2;width:100%;padding:70px 6%}
+    .hero__title{max-width:850px;margin:20px 0 40px;font-family:"Space Grotesk",system-ui,sans-serif;font-size:clamp(58px,8vw,112px);line-height:.86;letter-spacing:-7px}
+    .button{min-height:48px;padding:0 22px;border:1px solid var(--ink);border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:18px;font-weight:700}
+    .button--primary{background:var(--ink);color:#fff}
+    .button--lime{min-height:40px;padding:0 20px;font-size:13px;background:var(--lime);color:var(--ink);border:1.5px solid var(--ink);border-radius:999px}
+    @media(max-width:768px){.site-header{top:12px;padding:8px 14px 8px 18px;width:calc(100% - 24px)}.nav-links,.nav-actions{display:none}.nav-toggle{display:flex;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);align-items:center;justify-content:center}}
+    @media(max-width:620px){.shell{width:calc(100% - 24px)}.hero{min-height:500px;height:auto;padding-block:108px 48px}.hero__content{padding:0 20px}.hero__title{font-size:clamp(38px,11.2vw,52px);line-height:.94;letter-spacing:-2px;margin:16px 0 24px}}
+  </style>
+  <link rel="preload" as="style" href="{% static 'css/style.css' %}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{% static 'css/style.css' %}"></noscript>
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
@@ -57,13 +84,33 @@
     <p class="footer-copy">&copy; {% now "Y" %} ClubEvents</p>
   </footer>
 
-  {# CDN scripts stay optional: all core actions work as normal server-rendered pages. #}
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js" defer></script>
+  {# Load desktop animation libs (GSAP + Lenis) only on fine-pointer desktop without reduced-motion. #}
   <script src="{% static 'js/ui.js' %}" defer></script>
-  <script src="{% static 'js/motion.js' %}" defer></script>
+  <script>
+    (function () {
+      var desktopFine = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 900px)").matches;
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!desktopFine || reduced) {
+        var s = document.createElement("script");
+        s.src = "{% static 'js/motion.js' %}";
+        s.defer = true;
+        document.body.appendChild(s);
+        return;
+      }
+      var libs = [
+        "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js",
+        "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js",
+        "https://cdn.jsdelivr.net/npm/lenis@1.1.16/dist/lenis.min.js",
+        "{% static 'js/motion.js' %}"
+      ];
+      libs.forEach(function (src) {
+        var el = document.createElement("script");
+        el.src = src;
+        el.async = false;
+        document.body.appendChild(el);
+      });
+    })();
+  </script>
   {% block extra_scripts %}{% endblock %}
 </body>
 </html>

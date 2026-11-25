@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       navToggle.classList.toggle("is-open", willOpen);
       navToggle.setAttribute("aria-expanded", String(willOpen));
       mobileNav.classList.toggle("is-open", willOpen);
-      mobileNav.setAttribute("aria-hidden", String(!willOpen));
+      mobileNav.inert = !willOpen;
       document.body.classList.toggle("nav-open", willOpen);
 
       if (willOpen) {
