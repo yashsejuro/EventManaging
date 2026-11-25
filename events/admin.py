@@ -62,9 +62,14 @@ class EventAdmin(admin.ModelAdmin):
     list_select_related = ("created_by",)
     inlines = (RegistrationInline,)
 
-    @admin.display(description="Registrations", ordering="registrations")
+    def get_queryset(self, request):
+        from django.db.models import Count
+
+        return super().get_queryset(request).annotate(_reg_total=Count("registrations"))
+
+    @admin.display(description="Registrations", ordering="_reg_total")
     def registration_total(self, obj):
-        return obj.registrations.count()
+        return getattr(obj, "_reg_total", obj.registrations.count())
 
 
 @admin.register(Registration)

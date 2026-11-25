@@ -10,10 +10,12 @@ import csv
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.cache import cache
 from django.core.mail import send_mail
 from django.db import IntegrityError, transaction
-from django.db.models import Count, F, IntegerField, Sum
+from django.db.models import Count, F, IntegerField, OuterRef, Subquery, Sum
 from django.db.models.expressions import ExpressionWrapper
+from django.db.models.functions import Coalesce
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -47,36 +49,61 @@ def event_queryset():
     )
 
 
-class HomeView(TemplateView):
+class AnonymousEdgeCacheMixin:
+    """Set CDN edge cache headers only for anonymous, message-free GET requests."""
+
+    cache_control = "public, s-maxage=60, stale-while-revalidate=300"
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        is_anon = not request.user.is_authenticated and not request.COOKIES.get("sessionid")
+        has_messages = bool(messages.get_messages(request))
+        if request.method == "GET" and response.status_code == 200 and is_anon and not has_messages:
+            response["Cache-Control"] = self.cache_control
+        elif request.user.is_authenticated:
+            response["Cache-Control"] = "private, no-store"
+        return response
+
+
+class HomeView(AnonymousEdgeCacheMixin, TemplateView):
     """Landing page with a small set of database-derived figures."""
 
     template_name = "events/landing.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        upcoming = event_queryset().filter(start_datetime__gte=timezone.now())
-        featured = upcoming.order_by("start_datetime")[:3]
-        total_capacity = upcoming.aggregate(total=Sum("capacity"))["total"] or 0
-        registration_total = Registration.objects.filter(
-            event__start_datetime__gte=timezone.now()
-        ).count()
-        context.update(
-            featured_events=featured,
-            event_count=upcoming.count(),
-            registration_count=registration_total,
-            seats_open=max(total_capacity - registration_total, 0),
-            # The landing template receives one small, clearly named stats object.
-            stats={
-                "events": upcoming.count(),
+        now = timezone.now()
+        upcoming = event_queryset().filter(start_datetime__gte=now)
+        featured = list(upcoming.order_by("start_datetime")[:3])
+
+        def _compute_stats():
+            rows = list(
+                Event.objects.filter(start_datetime__gte=now)
+                .values("id", "capacity")
+                .annotate(regs=Count("registrations"))
+            )
+            events_count = len(rows)
+            total_capacity = sum(r["capacity"] for r in rows)
+            registration_total = sum(r["regs"] for r in rows)
+            return {
+                "events": events_count,
                 "registrations": registration_total,
                 "seats_open": max(total_capacity - registration_total, 0),
-            },
+            }
+
+        stats = cache.get_or_set("home_stats_v1", _compute_stats, 60)
+        context.update(
+            featured_events=featured,
+            event_count=stats["events"],
+            registration_count=stats["registrations"],
+            seats_open=stats["seats_open"],
+            stats=stats,
             categories=Event._meta.get_field("category").choices,
         )
         return context
 
 
-class EventListView(ListView):
+class EventListView(AnonymousEdgeCacheMixin, ListView):
     """Searchable, paginated public listing (nine cards on each page)."""
 
     template_name = "events/event_list.html"
@@ -111,7 +138,7 @@ class EventListView(ListView):
         return context
 
 
-class EventDetailView(DetailView):
+class EventDetailView(AnonymousEdgeCacheMixin, DetailView):
     """Display one event and, for signed-in users, their registration state."""
 
     model = Event
