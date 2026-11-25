@@ -58,9 +58,9 @@ ClubEvents is built on a custom design system prioritizing kinetic energy and mo
 | Destination | Link | Credentials |
 |---|---|---|
 | **Public Website** | [eventmanaging-blue.vercel.app](https://eventmanaging-blue.vercel.app) | Browse and explore without logging in |
-| **Student Portal** | [eventmanaging-blue.vercel.app/accounts/login/](https://eventmanaging-blue.vercel.app/accounts/login/) | User: `student` \| Password: `demo12345` |
-| **Organizer Portal** | [eventmanaging-blue.vercel.app/events/organizer/](https://eventmanaging-blue.vercel.app/events/organizer/) | User: `organizer` \| Password: `demo12345` |
-| **Admin Operations** | [eventmanaging-blue.vercel.app/admin/](https://eventmanaging-blue.vercel.app/admin/) | User: `admin` \| Password: `admin12345` |
+| **Student Portal** | [eventmanaging-blue.vercel.app/accounts/login/](https://eventmanaging-blue.vercel.app/accounts/login/) | User: `demo_student` (or `student` / `demo12345`) \| Password: `Demo@12345` |
+| **Organizer Portal** | [eventmanaging-blue.vercel.app/organizer/](https://eventmanaging-blue.vercel.app/organizer/) | User: `demo_organizer` (or `organizer` / `demo12345`) \| Password: `Demo@12345` |
+| **Admin Operations** | [eventmanaging-blue.vercel.app/admin/](https://eventmanaging-blue.vercel.app/admin/) | User: `demo_admin` (or `admin` / `admin12345`) \| Password: `Demo@12345` |
 
 ---
 

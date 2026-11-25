@@ -107,6 +107,33 @@ class Command(BaseCommand):
         demo_student.set_password(DEMO_PASSWORD)
         demo_student.save()
 
+        # Legacy README aliases so both credential sets work seamlessly
+        legacy_admin, _ = user_model.objects.get_or_create(
+            username="admin",
+            defaults={"email": "admin@clubevents.local", "first_name": "Admin"},
+        )
+        legacy_admin.is_staff = True
+        legacy_admin.is_superuser = True
+        legacy_admin.set_password("admin12345")
+        legacy_admin.save()
+
+        legacy_organizer, _ = user_model.objects.get_or_create(
+            username="organizer",
+            defaults={"email": "organizer@clubevents.local", "first_name": "Aarav"},
+        )
+        legacy_organizer.is_staff = True
+        legacy_organizer.is_superuser = True
+        legacy_organizer.set_password("demo12345")
+        legacy_organizer.save()
+        legacy_organizer.groups.add(organizer_group)
+
+        legacy_student, _ = user_model.objects.get_or_create(
+            username="student",
+            defaults={"email": "student@clubevents.local", "first_name": "Maya"},
+        )
+        legacy_student.set_password("demo12345")
+        legacy_student.save()
+
         filler_profiles = [
             ("aisha", "Aisha", "Kapoor", "aisha@clubevents.edu"),
             ("rohan", "Rohan", "Mehta", "rohan@clubevents.edu"),
