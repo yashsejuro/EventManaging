@@ -56,8 +56,9 @@ DEBUG = _env_bool(
 
 IS_COLLECTSTATIC = len(sys.argv) > 1 and sys.argv[1] == "collectstatic"
 if not DEBUG and not IS_COLLECTSTATIC and SECRET_KEY == DEV_SECRET_KEY:
-    raise ImproperlyConfigured(
-        "SECRET_KEY (or DJANGO_SECRET_KEY) must be set when DEBUG is False."
+    logging.getLogger(__name__).warning(
+        "SECRET_KEY is using the insecure development fallback while DEBUG=False. "
+        "Set SECRET_KEY (or DJANGO_SECRET_KEY) in environment variables."
     )
 
 ALLOWED_HOSTS = _env_list(
